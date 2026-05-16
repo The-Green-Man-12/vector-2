@@ -1,28 +1,53 @@
+/*
+Mason Gross
+Vector lab part 2
+Extra: Possible use of a txt file in place of manual insertion
+and writes the new restaurant order to the txt file.
+*/
+
 #include <iostream>
 #include <tuple>
 #include <vector>
+#include <fstream>
 using namespace std;
 void printVector(vector<string>& vect);
 int findIndex(vector<string>& v, string val);
 tuple<int, string> prompts(vector<string>& vect, int prompt);
-/*
-Mason Gross
-Vector lab part 2
-Extra: Created findIndex to replace a item by name
-*/
 
 int main() {
     int user_int = 0;
     string user_string = "";
     tuple<int, string> receiver;
+    string file = user_string;
+    string text;
+    vector<string> restaurants(0);
     cout << "Restaurant Ranker: " << endl;
-    cout << "How many restaurants do you want to rank?" << endl;
-    cin >> user_int;
-    vector<string> restaurants(user_int);
-    for(int i = 0; i < restaurants.size(); i++) {
-        cout << "What is your restaurant ranked: " << i + 1 << "?" << endl;
+    while(true) {
+        cout << "Do you wish to get the starter restaurants through a file or manual?" << endl;
         cin >> user_string;
-        restaurants[i] = user_string;
+        if(user_string == "file") {
+            cout << "Input file name: ";
+            cin >> file;
+            ifstream MyReadFile(file);
+            while (getline (MyReadFile, text)) {
+                restaurants.push_back(text);
+            }
+            MyReadFile.close();
+            break;
+        } else if (user_string == "manual") {
+            cout << "Starting manual input..." << endl;
+            cout << "How many restaurants do you want to rank?" << endl;
+            cin >> user_int;
+            vector<string> restaurants(user_int);
+            for(int i = 0; i < restaurants.size(); i++) {
+                cout << "What is your restaurant ranked: " << i + 1 << "?" << endl;
+                cin >> user_string;
+                restaurants[i] = user_string;
+            }
+            break;
+        } else {
+            cout << "Not a valid input." << endl;
+        }
     }
     cout << "Current list:" << endl;
     printVector(restaurants);
@@ -57,6 +82,11 @@ int main() {
         }
 
     }
+    ofstream MyWriteFile(file);
+    for(auto itr = restaurants.begin(); itr != restaurants.end(); ++itr) {
+        MyWriteFile << *itr << "\n";
+    }
+    MyWriteFile.close();
     return 0;
 }
 
