@@ -35,7 +35,7 @@ int main() {
         cin >> user_int;
         if(user_int == 1) {
             auto [receive_int, receive_string] = prompts(restaurants, 1);
-            restaurants.insert(restaurants.begin() + receive_int, receive_string);
+            restaurants.insert(restaurants.begin() + (receive_int - 1), receive_string);
         }
         else if(user_int == 2) {
             auto [receive_int, receive_string] = prompts(restaurants, 2);
