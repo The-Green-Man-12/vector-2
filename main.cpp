@@ -18,7 +18,7 @@ int main() {
     int user_int = 0;
     string user_string = "";
     tuple<int, string> receiver;
-    string file = user_string;
+    string file;
     string text;
     vector<string> restaurants(0);
     cout << "Restaurant Ranker: " << endl;
@@ -82,11 +82,13 @@ int main() {
         }
 
     }
-    ofstream MyWriteFile(file);
-    for(auto itr = restaurants.begin(); itr != restaurants.end(); ++itr) {
-        MyWriteFile << *itr << "\n";
+    if(file != "") {
+        ofstream MyWriteFile(file);
+        for(auto itr = restaurants.begin(); itr != restaurants.end(); ++itr) {
+            MyWriteFile << *itr << "\n";
+        }
+        MyWriteFile.close();
     }
-    MyWriteFile.close();
     return 0;
 }
 
